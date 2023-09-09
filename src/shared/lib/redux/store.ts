@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
+import { isDevEnv } from '~/shared/config/env'
+
 import { rootReducer } from './rootReducer'
 
 export const store = configureStore({
@@ -9,6 +11,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
+  devTools: isDevEnv,
 })
 
 export type AppDispatch = typeof store.dispatch
