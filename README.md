@@ -1,1 +1,5 @@
-# clock-react-redux
+# Clock React Redux
+
+- React
+- Redux
+- Feature-Sliced Design
