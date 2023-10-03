@@ -6,14 +6,14 @@ import { useAppSelector } from '~/shared/lib/redux'
 import { SLICE_NAME } from './constants'
 
 type State = {
-  timeZoneList: TimeZone[]
-  displayedTimeZoneList: TimeZone[]
+  timeZones: TimeZone[]
+  displayedTimeZones: TimeZone[]
   modal: boolean
 }
 
 const initialState: State = {
-  timeZoneList: [],
-  displayedTimeZoneList: [],
+  timeZones: [],
+  displayedTimeZones: [],
   modal: false,
 }
 
@@ -28,7 +28,7 @@ const slice = createSlice({
       state.modal = false
     },
     search: (state, { payload }: PayloadAction<string>) => {
-      state.displayedTimeZoneList = state.timeZoneList.filter(
+      state.displayedTimeZones = state.timeZones.filter(
         (timeZone) =>
           timeZone.city.toLowerCase().includes(payload.toLowerCase()) ||
           timeZone.continent.toLowerCase().includes(payload.toLowerCase()),
@@ -36,16 +36,16 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getTimeZoneList.fulfilled, (state, { payload }) => {
-      state.timeZoneList = payload
-      state.displayedTimeZoneList = payload
+    builder.addCase(getTimeZones.fulfilled, (state, { payload }) => {
+      state.timeZones = payload
+      state.displayedTimeZones = payload
     })
   },
 })
 
-export const getTimeZoneList = createAsyncThunk(
-  `${SLICE_NAME}/getTimeZoneList`,
-  async () => timeZoneModel.getTimeZoneList(),
+export const getTimeZones = createAsyncThunk(
+  `${SLICE_NAME}/getTimeZones`,
+  async () => timeZoneModel.getTimeZones(),
 )
 
 export const selectTimeZone = createAsyncThunk(
@@ -55,8 +55,8 @@ export const selectTimeZone = createAsyncThunk(
 
 export const { openModal, closeModal, search } = slice.actions
 
-export const useList = () =>
-  useAppSelector((state) => state[SLICE_NAME].displayedTimeZoneList)
+export const useTimeZones = () =>
+  useAppSelector((state) => state[SLICE_NAME].displayedTimeZones)
 export const useIsOpenModal = () =>
   useAppSelector((state) => state[SLICE_NAME].modal)
 

@@ -12,20 +12,20 @@ import { getTimeFromToday } from '~/shared/lib/getTimeFromToday'
 import { useAppDispatch } from '~/shared/lib/redux'
 import { TIME_FORMAT_MAIN } from '~/shared/config/constants'
 
-import { openModal, switchAlarm, useAlarmList } from '../model'
+import { openModal, switchAlarm, useAlarms } from '../model'
 
 import { Item } from './Item'
 import { Set } from './Set'
 
 export function Alarm() {
-  const alarmList = useAlarmList()
+  const alarms = useAlarms()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const timeoutList: number[] = []
+    const timeouts: number[] = []
 
-    alarmList.forEach((alarm) => {
+    alarms.forEach((alarm) => {
       if (alarm.isOn) {
         let timeFromToday = getTimeFromToday(alarm.time)
 
@@ -44,17 +44,17 @@ export function Alarm() {
             })
           }, unixFromNow * 1000)
 
-          timeoutList.push(timeout)
+          timeouts.push(timeout)
         }
       }
     })
 
-    return () => timeoutList.forEach((timeout) => clearTimeout(timeout))
-  }, [alarmList, dispatch, enqueueSnackbar])
+    return () => timeouts.forEach((timeout) => clearTimeout(timeout))
+  }, [alarms, dispatch, enqueueSnackbar])
 
   return (
     <Stack flex={1} minHeight={0}>
-      {alarmList.length > 0 ? (
+      {alarms.length > 0 ? (
         <Stack
           flex={1}
           minHeight={0}
@@ -62,7 +62,7 @@ export function Alarm() {
           mt={2}
           sx={{ overflowY: 'auto' }}
         >
-          {alarmList.map((alarm) => (
+          {alarms.map((alarm) => (
             <Item key={alarm.time.unix()} alarm={alarm} />
           ))}
         </Stack>

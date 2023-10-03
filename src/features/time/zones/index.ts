@@ -1,8 +1,8 @@
 import { openModal, reducer, selectTimeZone } from './model'
 
-export const timeZoneListModel = {
+export const timeZonesModel = {
   reducer,
   openModal,
   selectTimeZone,
 }
-export { ZoneList as TimeZoneList } from './ui'
+export { Zones as TimeZones } from './ui'
