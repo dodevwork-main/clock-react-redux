@@ -1,17 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { TimeZone } from '~/entities/time-zone'
-import { timeZoneListModel } from '~/features/time/zone-list'
+import { timeZonesModel } from '~/features/time/zones'
 import { useAppSelector } from '~/shared/lib/redux'
 
 import { SLICE_NAME } from './constants'
 
 type State = {
-  timeZoneList: TimeZone[]
+  timeZones: TimeZone[]
 }
 
 const initialState: State = {
-  timeZoneList: [],
+  timeZones: [],
 }
 
 const slice = createSlice({
@@ -19,17 +19,17 @@ const slice = createSlice({
   initialState,
   reducers: {
     removeTimeZone: (state, { payload }: PayloadAction<TimeZone>) => {
-      state.timeZoneList = state.timeZoneList.filter(
+      state.timeZones = state.timeZones.filter(
         (timeZone) => timeZone.tz !== payload.tz,
       )
     },
   },
   extraReducers: (builder) => {
     builder.addCase(
-      timeZoneListModel.selectTimeZone.fulfilled,
+      timeZonesModel.selectTimeZone.fulfilled,
       (state, { payload }) => {
-        if (state.timeZoneList.every((item) => item.tz !== payload.tz)) {
-          state.timeZoneList.push(payload)
+        if (state.timeZones.every((item) => item.tz !== payload.tz)) {
+          state.timeZones.push(payload)
         }
       },
     )
@@ -38,7 +38,7 @@ const slice = createSlice({
 
 export const { removeTimeZone } = slice.actions
 
-export const useTimeZoneList = () =>
-  useAppSelector((state) => state[SLICE_NAME].timeZoneList)
+export const useTimeZones = () =>
+  useAppSelector((state) => state[SLICE_NAME].timeZones)
 
 export const reducer = { [SLICE_NAME]: slice.reducer }

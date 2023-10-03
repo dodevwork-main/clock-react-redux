@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 
 import { TimeZone } from './types'
 
-export function getTimeZoneList(): TimeZone[] {
+export function getTimeZones(): TimeZone[] {
   return Intl.supportedValuesOf('timeZone').map((timeZone) => {
     const [continent, city] = timeZone.replaceAll('_', ' ').split('/')
 

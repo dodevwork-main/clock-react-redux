@@ -9,12 +9,12 @@ import { SLICE_NAME } from './constants'
 const { isSameTwoAlarmsFromToday } = alarmModel
 
 type State = {
-  alarmList: Alarm[]
+  alarms: Alarm[]
   modal: boolean
 }
 
 const initialState: State = {
-  alarmList: [],
+  alarms: [],
   modal: false,
 }
 
@@ -29,12 +29,12 @@ const slice = createSlice({
       state.modal = false
     },
     setAlarm: (state, { payload }: PayloadAction<Alarm>) => {
-      const { alarmList } = state
+      const { alarms } = state
 
-      if (alarmList.every((item) => !isSameTwoAlarmsFromToday(item, payload))) {
-        alarmList.push(payload)
+      if (alarms.every((item) => !isSameTwoAlarmsFromToday(item, payload))) {
+        alarms.push(payload)
 
-        alarmList.sort((a, b) => {
+        alarms.sort((a, b) => {
           const timeA = getTimeFromToday(a.time)
           const timeB = getTimeFromToday(b.time)
 
@@ -51,12 +51,12 @@ const slice = createSlice({
       }
     },
     removeAlarm: (state, { payload }: PayloadAction<Alarm>) => {
-      state.alarmList = state.alarmList.filter(
+      state.alarms = state.alarms.filter(
         (item) => !isSameTwoAlarmsFromToday(item, payload),
       )
     },
     switchAlarm: (state, { payload }: PayloadAction<Alarm>) => {
-      state.alarmList = state.alarmList.map((item) => {
+      state.alarms = state.alarms.map((item) => {
         if (isSameTwoAlarmsFromToday(item, payload)) {
           item.isOn = !item.isOn
         }
@@ -70,8 +70,8 @@ const slice = createSlice({
 export const { openModal, closeModal, setAlarm, removeAlarm, switchAlarm } =
   slice.actions
 
-export const useAlarmList = () =>
-  useAppSelector((state) => state[SLICE_NAME].alarmList)
+export const useAlarms = () =>
+  useAppSelector((state) => state[SLICE_NAME].alarms)
 export const useIsOpenModal = () =>
   useAppSelector((state) => state[SLICE_NAME].modal)
 

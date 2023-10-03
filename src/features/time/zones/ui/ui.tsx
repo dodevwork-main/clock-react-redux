@@ -7,7 +7,12 @@ import { useMount } from 'react-use'
 
 import { useAppDispatch } from '~/shared/lib/redux'
 
-import { closeModal, getTimeZoneList, useIsOpenModal, useList } from '../model'
+import {
+  closeModal,
+  getTimeZones,
+  useIsOpenModal,
+  useTimeZones,
+} from '../model'
 
 import { Search } from './Search'
 import { Item } from './Item'
@@ -16,12 +21,12 @@ const StyledDialog = styled(Dialog)({
   '& .MuiDialog-paper': { height: 'calc(100% - 64px)' },
 })
 
-export function ZoneList() {
+export function Zones() {
   const isOpen = useIsOpenModal()
-  const list = useList()
+  const timeZones = useTimeZones()
   const dispatch = useAppDispatch()
 
-  useMount(() => dispatch(getTimeZoneList()))
+  useMount(() => dispatch(getTimeZones()))
 
   return (
     <StyledDialog
@@ -39,9 +44,9 @@ export function ZoneList() {
               <FixedSizeList
                 height={height}
                 width={width}
-                itemCount={list.length}
+                itemCount={timeZones.length}
                 itemSize={72}
-                itemData={list}
+                itemData={timeZones}
               >
                 {Item}
               </FixedSizeList>
